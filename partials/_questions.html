@@ -1,0 +1,46 @@
+<div class="questionsContainer col-12">
+  <div class="col-12 align-self-top">
+    <img src="img/logo.jpg" class="logo">
+  </div>
+  <div class="d-flex flex-column justify-content-center align-items-center h-50 mt-5 ms-auto me-auto w-50" style="background-color: white; border-radius: 10px">
+    <div class="col-6 overflow-auto mainForm no-padding p-4 container-sm">
+      <div class="row no-gutters question text-center questionText">
+        <p>Interesują mnie studia:</p>
+      </div>
+      <div class="answers" data-answers="">
+        <div class="answer">
+          <input class="me-2" type="radio" id="q1a" data-id="1" data-answer="a" name="answer">
+          <label for="q1a">1 stopnia</label>
+        </div>
+        <div class="answer mt-2">
+          <input class="me-2" type="radio" id="q1b" data-id="1" data-answer="b" name="answer">
+          <label for="q1b">2 stopnia</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function(){
+    $(document).on("click", ".answer", function(event){
+      var questionNumber = $(this).find("input").attr("data-id");
+      var answer = $(this).find("input").attr("data-answer");
+      var alternate;
+
+      if($(".answers").attr("data-weight")){
+        alternate = $(".answers").attr("data-weight");
+      } else{
+        alternate = '';
+      }
+
+      $.get('partials/'+(Number(questionNumber)+1)+answer+alternate+'.html',
+      { '_': $.now() }).done(function(data){
+        $(".mainForm").fadeOut(500, function(){
+          $(".mainForm").html(data);
+          $(".mainForm").fadeIn(500);
+        });
+      });
+    });
+  });
+</script>
